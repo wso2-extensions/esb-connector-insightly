@@ -28,7 +28,7 @@
     <name>WSO2 Carbon - Mediation Library Connector For Insightly</name>
     <url>http://wso2.org</url>
     <properties>
-        <connector.name>insightly</connector.name>>
+        <connector.name>insightly</connector.name>
         <test.framework.version>4.2.0</test.framework.version>
         <esb.version>4.9.0</esb.version>
         <carbon.kernel.version>4.4.1</carbon.kernel.version>
