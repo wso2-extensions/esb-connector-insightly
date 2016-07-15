@@ -216,6 +216,8 @@
                 <arg expression="get-property('uri.var.reminderSent')"/>
             </args>
         </payloadFactory>
+        <property action="remove" name="Accept-Encoding" scope="transport"/>
+        <property name="DISABLE_CHUNKING" value="true" scope="axis2"/>
         <call>
             <endpoint>
                 <http method="post" uri-template="{uri.var.apiUrl}/Tasks"/>
