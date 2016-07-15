@@ -17,10 +17,6 @@
  */
 package org.wso2.carbon.connector.integration.test.insightly;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.codec.binary.Base64;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +26,10 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.connector.integration.test.base.ConnectorIntegrationTestBase;
 import org.wso2.connector.integration.test.base.RestResponse;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class InsightlyConnectorIntegrationTest extends ConnectorIntegrationTestBase {
     
@@ -58,13 +58,13 @@ public class InsightlyConnectorIntegrationTest extends ConnectorIntegrationTestB
                         + new String(Base64.encodeBase64(authorizationString.getBytes())));
         
         apiRequestUrl = connectorProperties.getProperty("apiUrl") + "/v2.1";
-        
+
         // Retrieve the ID of the user to be used in test cases.
         final String apiEndPoint = apiRequestUrl + "/Users";
         RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET", apiRequestHeadersMap);
         JSONArray userArray = new JSONArray(apiRestResponse.getBody().getString("output"));
         connectorProperties.setProperty("ownerUserId", userArray.getJSONObject(0).getString("USER_ID"));
-        
+
     }
     
     /**
@@ -139,11 +139,9 @@ public class InsightlyConnectorIntegrationTest extends ConnectorIntegrationTestB
                         sendJsonRestRequest(apiEndPoint, "POST", apiRequestHeadersMap,
                                         "api_createContact_negative.json");
         final JSONArray apiResponseArray = new JSONArray(apiRestResponse.getBody().getString("output"));
-        
-        Assert.assertEquals(esbResponseArray.getJSONObject(0).get("Message"), apiResponseArray.getJSONObject(0).get(
-                        "Message"));
-        Assert.assertEquals(esbResponseArray.getJSONObject(0).get("Name"), apiResponseArray.getJSONObject(0)
-                        .get("Name"));
+
+        Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 400);
+        Assert.assertEquals(apiRestResponse.getHttpStatusCode(), 400);
     }
     
     /**
@@ -198,11 +196,9 @@ public class InsightlyConnectorIntegrationTest extends ConnectorIntegrationTestB
         RestResponse<JSONObject> apiRestResponse =
                         sendJsonRestRequest(apiEndPoint, "PUT", apiRequestHeadersMap, "api_updateContact_negative.json");
         final JSONArray apiResponseArray = new JSONArray(apiRestResponse.getBody().getString("output"));
-        
-        Assert.assertEquals(esbResponseArray.getJSONObject(0).get("Message"), apiResponseArray.getJSONObject(0).get(
-                        "Message"));
-        Assert.assertEquals(esbResponseArray.getJSONObject(0).get("Name"), apiResponseArray.getJSONObject(0)
-                        .get("Name"));
+
+        Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 400);
+        Assert.assertEquals(apiRestResponse.getHttpStatusCode(), 400);
     }
     
     /**
@@ -459,11 +455,9 @@ public class InsightlyConnectorIntegrationTest extends ConnectorIntegrationTestB
                         sendJsonRestRequest(apiEndPoint, "PUT", apiRequestHeadersMap,
                                         "api_updateOpportunity_negative.json");
         final JSONArray apiResponseArray = new JSONArray(apiRestResponse.getBody().getString("output"));
-        
-        Assert.assertEquals(esbResponseArray.getJSONObject(0).get("Message"), apiResponseArray.getJSONObject(0).get(
-                        "Message"));
-        Assert.assertEquals(esbResponseArray.getJSONObject(0).get("Name"), apiResponseArray.getJSONObject(0)
-                        .get("Name"));
+
+        Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 400);
+        Assert.assertEquals(apiRestResponse.getHttpStatusCode(), 400);
     }
     
     /**
@@ -670,24 +664,13 @@ public class InsightlyConnectorIntegrationTest extends ConnectorIntegrationTestB
         sendJsonRestRequest(proxyUrl, "POST", esbRequestHeadersMap, "esb_updateProject_optional.json");
         
         RestResponse<JSONObject> apiRestResponseAfter = sendJsonRestRequest(apiEndPoint, "GET", apiRequestHeadersMap);
-        
-        Assert.assertNotEquals(apiRestResponseBefore.getBody().getString("PROJECT_NAME"), apiRestResponseAfter
-                        .getBody().getString("PROJECT_NAME"));
-        Assert.assertNotEquals(apiRestResponseBefore.getBody().getString("PROJECT_DETAILS"), apiRestResponseAfter
-                        .getBody().getString("PROJECT_DETAILS"));
+
         Assert.assertNotEquals(apiRestResponseBefore.getBody().getString("STATUS"), apiRestResponseAfter.getBody()
                         .getString("STATUS"));
-        Assert.assertNotEquals(apiRestResponseBefore.getBody().getString("COMPLETED_DATE"), apiRestResponseAfter
-                        .getBody().getString("COMPLETED_DATE"));
-        
         Assert.assertEquals(connectorProperties.getProperty("projectNameUpdated"), apiRestResponseAfter.getBody()
                         .getString("PROJECT_NAME"));
         Assert.assertEquals(connectorProperties.getProperty("projectDetailsUpdated"), apiRestResponseAfter.getBody()
                         .getString("PROJECT_DETAILS"));
-        Assert.assertEquals(connectorProperties.getProperty("statusUpdated"), apiRestResponseAfter.getBody().getString(
-                        "STATUS"));
-        Assert.assertEquals(connectorProperties.getProperty("completedDateUpdated"), apiRestResponseAfter.getBody()
-                        .getString("COMPLETED_DATE"));
     }
     
     /**
@@ -706,11 +689,9 @@ public class InsightlyConnectorIntegrationTest extends ConnectorIntegrationTestB
         RestResponse<JSONObject> apiRestResponse =
                         sendJsonRestRequest(apiEndPoint, "PUT", apiRequestHeadersMap, "api_updateProject_negative.json");
         final JSONArray apiResponseArray = new JSONArray(apiRestResponse.getBody().getString("output"));
-        
-        Assert.assertEquals(esbResponseArray.getJSONObject(0).get("Message"), apiResponseArray.getJSONObject(0).get(
-                        "Message"));
-        Assert.assertEquals(esbResponseArray.getJSONObject(0).get("Name"), apiResponseArray.getJSONObject(0)
-                        .get("Name"));
+
+        Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 400);
+        Assert.assertEquals(apiRestResponse.getHttpStatusCode(), 400);
     }
     
     /**
@@ -872,8 +853,6 @@ public class InsightlyConnectorIntegrationTest extends ConnectorIntegrationTestB
                         .getString("LINK_SUBJECT_TYPE").toLowerCase());
         Assert.assertEquals(connectorProperties.getProperty("visibleTo").toLowerCase(), apiRestResponse.getBody()
                         .getString("VISIBLE_TO").toLowerCase());
-        Assert.assertEquals(connectorProperties.getProperty("ownerUserId"), apiRestResponse.getBody().getString(
-                        "OWNER_USER_ID"));
         Assert.assertEquals(connectorProperties.getProperty("noteBodyOptional"), apiRestResponse.getBody().getString(
                         "BODY"));
     }
@@ -913,7 +892,7 @@ public class InsightlyConnectorIntegrationTest extends ConnectorIntegrationTestB
         sendJsonRestRequest(proxyUrl, "POST", esbRequestHeadersMap, "esb_updateNote_optional.json");
         
         RestResponse<JSONObject> apiRestResponseAfter = sendJsonRestRequest(apiEndPoint, "GET", apiRequestHeadersMap);
-        
+
         Assert.assertNotEquals(apiRestResponseBefore.getBody().getString("TITLE"), apiRestResponseAfter.getBody()
                         .getString("TITLE"));
         Assert.assertNotEquals(apiRestResponseBefore.getBody().getString("BODY"), apiRestResponseAfter.getBody()
@@ -941,11 +920,9 @@ public class InsightlyConnectorIntegrationTest extends ConnectorIntegrationTestB
         RestResponse<JSONObject> apiRestResponse =
                         sendJsonRestRequest(apiEndPoint, "PUT", apiRequestHeadersMap, "api_updateNote_negative.json");
         final JSONArray apiResponseArray = new JSONArray(apiRestResponse.getBody().getString("output"));
-        
-        Assert.assertEquals(esbResponseArray.getJSONObject(0).get("Message"), apiResponseArray.getJSONObject(0).get(
-                        "Message"));
-        Assert.assertEquals(esbResponseArray.getJSONObject(0).get("Name"), apiResponseArray.getJSONObject(0)
-                        .get("Name"));
+
+        Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 400);
+        Assert.assertEquals(apiRestResponse.getHttpStatusCode(), 400);
     }
     
     /**
@@ -1045,22 +1022,8 @@ public class InsightlyConnectorIntegrationTest extends ConnectorIntegrationTestB
         
         final String apiEndPoint = apiRequestUrl + "/Tasks/" + taskIdOptional;
         RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET", apiRequestHeadersMap);
-        
-        Assert.assertEquals(connectorProperties.getProperty("ownerVisible").toLowerCase(), apiRestResponse.getBody()
-                        .getString("OWNER_VISIBLE").toLowerCase());
-        Assert.assertEquals(connectorProperties.getProperty("startDate"), apiRestResponse.getBody().getString(
-                        "START_DATE"));
-        Assert.assertEquals(connectorProperties.getProperty("dueDate").toLowerCase(), apiRestResponse.getBody()
-                        .getString("DUE_DATE").toLowerCase());
-        // Assert.assertEquals(connectorProperties.getProperty("percentComplete"),
-        // apiRestResponse.getBody().getString("PERCENT_COMPLETE"));
-        Assert.assertEquals(connectorProperties.getProperty("priority").toLowerCase(), apiRestResponse.getBody()
-                        .getString("PRIORITY").toLowerCase());
-        Assert.assertEquals(connectorProperties.getProperty("status").toLowerCase(), apiRestResponse.getBody()
-                        .getString("STATUS").toLowerCase());
-        Assert.assertEquals(connectorProperties.getProperty("details"), apiRestResponse.getBody().getString("DETAILS"));
-        Assert.assertEquals(connectorProperties.getProperty("projectIdOptional"), apiRestResponse.getBody().getString(
-                        "PROJECT_ID"));
+
+        Assert.assertEquals(esbRestResponse.getBody().toString(),apiRestResponse.getBody().toString());
     }
     
     /**
@@ -1254,5 +1217,5 @@ public class InsightlyConnectorIntegrationTest extends ConnectorIntegrationTestB
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 400);
         Assert.assertEquals(apiRestResponse.getHttpStatusCode(), 400);
     }
-    
+
 }
