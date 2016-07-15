@@ -11,11 +11,11 @@ Tested Platform:
 
  - Microsoft WINDOWS V-7
  - UBUNTU 13.04
- - WSO2 ESB 4.9.0
+ - WSO2 ESB 4.9.0, 5.0.0-BETA
 
 Steps to follow in setting integration test.
 
- 1. Download ESB 4.9.0.
+ 1. Download ESB 4.9.0, 5.0.0-BETA
 
  2. Compress the modified ESB as wso2esb-4.9.0.zip and copy that zip file in to location "<INSIGHTLY_HOME>/repository/".
 	If required install the Insightly security certificate (extracted from https://api.insight.ly) to client-truststore.jks located in the <ESB_HOME>/repository/resources/security directory.
