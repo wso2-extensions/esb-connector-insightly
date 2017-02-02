@@ -93,12 +93,6 @@
                 <property name="uri.var.noteLinks" value="[]"/>
             </then>
         </filter>
-        <filter source="boolean(get-property('uri.var.ownerUserId'))" regex="true">
-            <then>
-                <property name="uri.var.ownerUserId"
-                          expression="fn:concat(',&quot;OWNER_USER_ID&quot;: &quot;', get-property('uri.var.ownerUserId'), '&quot;')"/>
-            </then>
-        </filter>
         <payloadFactory media-type="json">
             <format>
                 {
@@ -112,7 +106,6 @@
                 "VISIBLE_USER_IDS": "$8",
                 "FILE_ATTACHMENTS":$9,
                 "NOTELINKS":$10
-                $11
                 }
             </format>
             <args>
@@ -126,9 +119,20 @@
                 <arg expression="get-property('uri.var.visibleUserIds')"/>
                 <arg expression="get-property('uri.var.fileAttachments')"/>
                 <arg expression="get-property('uri.var.noteLinks')"/>
-                <arg expression="get-property('uri.var.ownerUserId')"/>
             </args>
         </payloadFactory>
+        <script language="js">
+            <![CDATA[
+                //request body param processing start
+                payload = mc.getPayloadJSON();
+                var ownerUserId = mc.getProperty("ownerUserId");
+                if (ownerUserId != "" && ownerUserId != null) {
+                    payload.OWNER_USER_ID = ownerUserId;
+                }
+                mc.setPayloadJSON(payload);
+                //request body param processing end
+            ]]>
+        </script>
         <property action="remove" name="Accept-Encoding" scope="transport"/>
         <property name="DISABLE_CHUNKING" value="true" scope="axis2"/>
         <call>

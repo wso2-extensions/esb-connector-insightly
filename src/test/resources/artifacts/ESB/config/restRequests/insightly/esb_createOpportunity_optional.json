@@ -8,5 +8,6 @@
     "bidCurrency": "%s(bidCurrency)",
     "bidAmount": %s(bidAmount),
     "bidType": "%s(bidType)",
-    "bidDuration": %s(bidDuration)
+    "bidDuration": "%s(bidDuration)",
+    "ownerUserId": %s(ownerUserId)
 }

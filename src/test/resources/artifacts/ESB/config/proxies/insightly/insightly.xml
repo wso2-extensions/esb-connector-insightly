@@ -84,6 +84,7 @@
                         <ownerUserId>{$ctx:ownerUserId}</ownerUserId>
                         <visibleTo>{$ctx:visibleTo}</visibleTo>
                         <tags>{$ctx:tags}</tags>
+                        <ownerUserId>{$ctx:ownerUserId}</ownerUserId>
                     </insightly.createContact>
                 </case>
                 <case regex="urn:updateContact">
@@ -94,6 +95,7 @@
                         <lastName>{$ctx:lastName}</lastName>
                         <background>{$ctx:background}</background>
                         <tags>{$ctx:tags}</tags>
+                        <ownerUserId>{$ctx:ownerUserId}</ownerUserId>
                     </insightly.updateContact>
                 </case>
                 <case regex="urn:getContact">
@@ -116,6 +118,7 @@
                         <bidType>{$ctx:bidType}</bidType>
                         <bidDuration>{$ctx:bidDuration}</bidDuration>
                         <opportunityState>{$ctx:opportunityState}</opportunityState>
+                        <ownerUserId>{$ctx:ownerUserId}</ownerUserId>
                     </insightly.createOpportunity>
                 </case>
                 <case regex="urn:updateOpportunity">
@@ -129,6 +132,7 @@
                         <bidType>{$ctx:bidType}</bidType>
                         <bidDuration>{$ctx:bidDuration}</bidDuration>
                         <opportunityState>{$ctx:opportunityState}</opportunityState>
+                        <ownerUserId>{$ctx:ownerUserId}</ownerUserId>
                     </insightly.updateOpportunity>
                 </case>
                 <case regex="urn:getOpportunity">
@@ -150,6 +154,7 @@
                         <visibleTo>{$ctx:visibleTo}</visibleTo>
                         <projectName>{$ctx:projectName}</projectName>
                         <status>{$ctx:status}</status>
+                        <ownerUserId>{$ctx:ownerUserId}</ownerUserId>
                     </insightly.createProject>
                 </case>
                 <case regex="urn:updateProject">
@@ -162,6 +167,7 @@
                         <visibleTo>{$ctx:visibleTo}</visibleTo>
                         <projectName>{$ctx:projectName}</projectName>
                         <status>{$ctx:status}</status>
+                        <ownerUserId>{$ctx:ownerUserId}</ownerUserId>
                     </insightly.updateProject>
                 </case>
                 <case regex="urn:getProject">
@@ -183,6 +189,7 @@
                         <title>{$ctx:title}</title>
                         <linkSubjectId>{$ctx:linkSubjectId}</linkSubjectId>
                         <linkSubjectType>{$ctx:linkSubjectType}</linkSubjectType>
+                        <ownerUserId>{$ctx:ownerUserId}</ownerUserId>
                     </insightly.createNote>
                 </case>
                 <case regex="urn:updateNote">
@@ -192,6 +199,7 @@
                         <title>{$ctx:title}</title>
                         <linkSubjectId>{$ctx:linkSubjectId}</linkSubjectId>
                         <linkSubjectType>{$ctx:linkSubjectType}</linkSubjectType>
+                        <ownerUserId>{$ctx:ownerUserId}</ownerUserId>
                     </insightly.updateNote>
                 </case>
                 <case regex="urn:getNote">

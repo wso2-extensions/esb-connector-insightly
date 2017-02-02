@@ -9,5 +9,6 @@
     "bidAmount": %s(bidAmountUpdated),
     "bidType": "%s(bidTypeUpdated)",
     "bidDuration": %s(bidDurationUpdated),
-    "opportunityState": "Open"
+    "opportunityState": "Open",
+    "ownerUserId": "%s(ownerUserId)"
 }

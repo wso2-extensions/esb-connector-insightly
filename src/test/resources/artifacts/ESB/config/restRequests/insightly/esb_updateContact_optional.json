@@ -8,5 +8,6 @@
     "background": "%s(backgroundUpdated)",
     "tags": [{
       "TAG_NAME": "%s(tagNameUpdated)"
-    }]
+    }],
+    "ownerUserId": "%s(ownerUserId)"
 }

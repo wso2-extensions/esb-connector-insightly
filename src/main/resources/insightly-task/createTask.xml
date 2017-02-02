@@ -144,20 +144,6 @@
                 <property name="uri.var.ownerUserId" value=""/>
             </then>
         </filter>
-        <!-- Adding to the Payload if and only if the user sends a non-empty value for the parameters. -->
-        <filter source="boolean(get-property('uri.var.ownerVisible'))" regex="true">
-            <then>
-                <property name="uri.var.ownerVisible"
-                          expression="fn:concat(',&quot;OWNER_VISIBLE&quot;: ', get-property('uri.var.ownerVisible'))"/>
-            </then>
-        </filter>
-        <filter source="boolean(get-property('uri.var.reminderSent'))" regex="true">
-            <then>
-                <property name="uri.var.reminderSent"
-                          expression="fn:concat(',&quot;REMINDER_SENT&quot;: ', get-property('uri.var.reminderSent'))"/>
-            </then>
-        </filter>
-
         <!-- If user skips sending the array type params, set it as empty array -->
         <filter source="boolean(get-property('uri.var.taskLinks'))" regex="false">
             <then>
@@ -187,8 +173,6 @@
                 "REMINDER_DATE_UTC":"$18",
                 "ASSIGNED_TEAM_ID":"$19",
                 "ASSIGNED_DATE_UTC":"$20"
-                $21
-                $22
                 }
             </format>
             <args>
@@ -212,10 +196,24 @@
                 <arg expression="get-property('uri.var.reminderDateUtc')"/>
                 <arg expression="get-property('uri.var.assignedTeamId')"/>
                 <arg expression="get-property('uri.var.assignedDateUtc')"/>
-                <arg expression="get-property('uri.var.ownerVisible')"/>
-                <arg expression="get-property('uri.var.reminderSent')"/>
             </args>
         </payloadFactory>
+        <script language="js">
+            <![CDATA[
+                //request body param processing start
+                payload = mc.getPayloadJSON();
+                var ownerVisible = mc.getProperty("ownerVisible");
+                if (ownerVisible != "" && ownerVisible != null) {
+                    payload.OWNER_VISIBLE = ownerVisible;
+                }
+                var reminderSent = mc.getProperty("reminderSent");
+                if (reminderSent != "" && reminderSent != null) {
+                    payload.REMINDER_SENT = reminderSent;
+                }
+                mc.setPayloadJSON(payload);
+                //request body param processing end
+            ]]>
+        </script>
         <property action="remove" name="Accept-Encoding" scope="transport"/>
         <property name="DISABLE_CHUNKING" value="true" scope="axis2"/>
         <call>

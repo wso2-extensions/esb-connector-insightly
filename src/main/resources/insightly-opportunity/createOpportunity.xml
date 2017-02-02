@@ -193,18 +193,6 @@
                 <property name="uri.var.emailLinks" value="[]"/>
             </then>
         </filter>
-        <filter source="boolean(get-property('uri.var.ownerUserId'))" regex="true">
-            <then>
-                <property name="uri.var.ownerUserId"
-                          expression="fn:concat(',&quot;OWNER_USER_ID&quot;: &quot;', get-property('uri.var.ownerUserId'), '&quot;')"/>
-            </then>
-        </filter>
-        <filter source="boolean(get-property('uri.var.opportunityId'))" regex="true">
-            <then>
-                <property name="uri.var.opportunityId"
-                          expression="fn:concat(',&quot;OPPORTUNITY_ID&quot;: &quot;', get-property('uri.var.opportunityId'), '&quot;')"/>
-            </then>
-        </filter>
         <payloadFactory media-type="json">
             <format>
                 {
@@ -229,8 +217,6 @@
                 "TAGS": $19,
                 "LINKS": $20,
                 "EMAILLINKS":$21
-                $22
-                $23
                 }
             </format>
             <args>
@@ -255,10 +241,25 @@
                 <arg expression="get-property('uri.var.tags')"/>
                 <arg expression="get-property('uri.var.links')"/>
                 <arg expression="get-property('uri.var.emailLinks')"/>
-                <arg expression="get-property('uri.var.ownerUserId')"/>
-                <arg expression="get-property('uri.var.opportunityId')"/>
             </args>
         </payloadFactory>
+        <script language="js">
+            <![CDATA[
+            <!-- Adding to the Payload if and only if the user sends a non-empty value for the parameters. -->
+                //request body param processing start
+                payload = mc.getPayloadJSON();
+                var ownerUserId = mc.getProperty("ownerUserId");
+                if (ownerUserId != "" && ownerUserId != null) {
+                    payload.OWNER_USER_ID = ownerUserId;
+                }
+                var opportunityId = mc.getProperty("opportunityId");
+                if (opportunityId != "" && opportunityId != null) {
+                    payload.OPPORTUNITY_ID = opportunityId;
+                }
+                mc.setPayloadJSON(payload);
+                //request body param processing end
+            ]]>
+        </script>
         <property action="remove" name="Accept-Encoding" scope="transport"/>
         <property name="DISABLE_CHUNKING" value="true" scope="axis2"/>
         <call>

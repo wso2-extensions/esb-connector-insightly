@@ -6,5 +6,6 @@
     "completedDate": "%s(completedDate)",
     "visibleTo": "%s(visibleTo)",
     "projectName": "%s(projectNameOptional)",
-    "status": "%s(status)"
+    "status": "%s(status)",
+    "ownerUserId": "%s(ownerUserId)"
 }

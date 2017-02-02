@@ -8,5 +8,6 @@
     "visibleTo": "%s(visibleTo)",
     "tags": [{
       "TAG_NAME": "%s(tagName)"
-    }]
+    }],
+    "ownerUserId": "%s(ownerUserId)"
 }
