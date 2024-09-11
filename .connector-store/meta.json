@@ -4,7 +4,7 @@
     "category": "Customer Relationship Management",
     "documentationUrl": "https://docs.wso2.com/display/ESBCONNECTORS/Insightly+Connector",
     "description": "The Insightly connector allows you to access the Insightly API through the WSO2 ESB. Insightly is an easy, powerful and affordable online Customer Relationship and Project Management Software used by over 400,000 small businesses world wide.",
-    "status": "Active",
+    "status": "Inactive",
     "labels": [
         "connector"
     ],
